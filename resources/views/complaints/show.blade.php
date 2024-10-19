@@ -9,15 +9,19 @@
 
     <div class="card mb-4">
         <div class="card-body">
+            <h5 class="card-title">Report #{{ $complaint->complaint_number }}</h5>
             <div class="row">
                 <div class="col-md-6">
-                    <h5 class="card-title">Report #{{ $complaint->complaint_number }}</h5>
                     <p class="card-text"><strong>Status:</strong> {{ \Illuminate\Support\Str::headline($complaint->status) }}</p>
                     <p class="card-text"><strong>Type:</strong> {{ \Illuminate\Support\Str::headline($complaint->complaint_type) }}</p>
                     @if($complaint->status === 'completed')
-                        <p class="card-text"><strong>Outcome:</strong> {{ ucfirst($complaint->outcome ?? 'Not determined') }}</p>
                         <p class="card-text"><strong>Closed Date:</strong> {{ $complaint->updated_at }}</p>
                     @endif
+                    <p class="card-text"><strong>Created By:</strong> {{ $complaint->user->name ?? 'Anonymous' }}</p>
+                    <p class="card-text"><strong>Address:</strong> {{ $complaint->user->address ?? '' }}</p>
+                    <p class="card-text"><strong>City:</strong> {{ $complaint->user->city ?? '' }}</p>
+                    <p class="card-text"><strong>State:</strong> {{ $complaint->user->state ?? '' }}</p>
+                    <p class="card-text"><strong>Zip:</strong> {{ $complaint->user->zip ?? '' }}</p>
                     <p class="card-text"><strong>Description:</strong> {{ $complaint->description }}</p>
                     <p class="card-text"><strong>Incident Date:</strong> {{ $complaint->incident_date }}</p>
                     @if(!is_null($complaint->city))
@@ -25,11 +29,24 @@
                     @endif
                 </div>
                 <div class="col-md-6">
-                    <h6 class="mt-4">Accused Information</h6>
-                    <p class="card-text"><strong>Name:</strong> {{ $complaint->officer->name ?? '' }}</p>
-                    <p class="card-text"><strong>Location:</strong> {{ $complaint->officer->division ?? '' }}</p>
+                    <h6 class="mt-4">Assigned Information</h6>
+                    <p class="card-text"><strong>Name:</strong> {{ $complaint->assignedTo->name ?? '' }}</p>
                 </div>
             </div>
+
+            <h6 class="mt-5">Attachments</h6>
+            @if($complaint->attachments->count() > 0)
+                <ul class="list-group mb-3">
+                    @foreach($complaint->attachments as $attachment)
+                        <li class="list-group-item">
+                            <a href="{{ Storage::url($attachment->file_path) }}"
+                               target="_blank">{{ $attachment->file_name }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <p>No attachments for this complaint.</p>
+            @endif
         </div>
     </div>
 

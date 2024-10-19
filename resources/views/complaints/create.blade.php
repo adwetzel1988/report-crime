@@ -108,9 +108,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Where did this crime occur</h5>
                             <div class="mb-3">
@@ -128,20 +125,23 @@
                                     <option selected disabled>Select a city</option>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Accused Information</h5>
+                            <h5 class="card-title mt-5">Accused Information</h5>
                             <p>If you know the details of the accused, please input it here</p>
                             <div class="mb-3">
-                                <label for="officer_name" class="form-label">Accused Name</label>
+                                <label for="officer_name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="officer_name" name="officer_name">
                             </div>
                             <div class="mb-3">
-                                <label for="officer_division" class="form-label">Accused Location</label>
-                                <input type="text" class="form-control" id="officer_division" name="officer_division">
+                                <label for="officer_address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="officer_address" name="officer_address">
+                            </div>
+                            <div class="mb-3">
+                                <label for="officer_phone_number" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="officer_phone_number" name="officer_phone_number">
+                            </div>
+                            <div class="mb-3">
+                                <label for="officer_email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="officer_email" name="officer_email">
                             </div>
                         </div>
                     </div>
@@ -175,32 +175,78 @@
             width: 16px;
             height: 16px;
         }
+
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
     </style>
 
     <script>
-        @guest
-        document.getElementById('anonymousCheckbox').addEventListener('change', function () {
-          var userInfoFields = document.getElementById('userInfoFields');
-          var addressFields = document.getElementById('addressFields');
-          if (this.checked) {
-            userInfoFields.style.display = 'none'; // Hide user info fields if anonymous
-            addressFields.style.display = 'none'; // Hide address fields if anonymous
-            // Clear the values of the user info and address fields
-            document.getElementById('first_name').value = '';
-            document.getElementById('last_name').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('address').value = '';
-            document.getElementById('city').value = '';
-            document.getElementById('state').value = '';
-            document.getElementById('zip').value = '';
-          } else {
-            userInfoFields.style.display = 'block'; // Show user info fields if not anonymous
-            addressFields.style.display = 'block'; // Show address fields if not anonymous
-            // The hidden input will ensure that anonymous is set to 0
+      // In your Javascript (external .js resource or <script> tag)
+      $(document).ready(function() {
+        $('#city').select2();
+
+        let statesData = @json($states);
+
+        const stateSelect = document.getElementById('state');
+        const citySelect = document.getElementById('city');
+
+        stateSelect.addEventListener('change', function () {
+          const stateId = this.value;
+          citySelect.innerHTML = '<option selected disabled>Select a city</option>';
+          citySelect.disabled = true;
+
+          const selectedState = statesData.find(state => state.id == stateId);
+          if (selectedState) {
+            selectedState.cities.forEach(city => {
+              const option = document.createElement('option');
+              option.value = city.id;
+              option.textContent = city.name;
+              citySelect.appendChild(option);
+            });
+            citySelect.disabled = false;
           }
         });
+
+        document.getElementById('complaint_type').addEventListener('change', function () {
+          var customTypeDiv = document.getElementById('custom_type_div');
+          if (this.value === 'Other') {
+            customTypeDiv.style.display = 'block';
+          } else {
+            customTypeDiv.style.display = 'none';
+            document.getElementById('custom_type').value = ''; // Clear the custom type input
+          }
+        });
+
+          @guest
+          document.getElementById('anonymousCheckbox').addEventListener('change', function () {
+            var userInfoFields = document.getElementById('userInfoFields');
+            var addressFields = document.getElementById('addressFields');
+            if (this.checked) {
+              userInfoFields.style.display = 'none'; // Hide user info fields if anonymous
+              addressFields.style.display = 'none'; // Hide address fields if anonymous
+              // Clear the values of the user info and address fields
+              document.getElementById('first_name').value = '';
+              document.getElementById('last_name').value = '';
+              document.getElementById('phone').value = '';
+              document.getElementById('email').value = '';
+              document.getElementById('password').value = '';
+              document.getElementById('address').value = '';
+              document.getElementById('city').value = '';
+              document.getElementById('state').value = '';
+              document.getElementById('zip').value = '';
+            } else {
+              userInfoFields.style.display = 'block'; // Show user info fields if not anonymous
+              addressFields.style.display = 'block'; // Show address fields if not anonymous
+              // The hidden input will ensure that anonymous is set to 0
+            }
+          });
 
         document.getElementById('complaintForm').addEventListener('submit', function (e) {
           console.log('Form action:', this.action); // Log the form action URL
@@ -221,41 +267,8 @@
           console.log('Form is valid, submitting...'); // Log for debugging
           // Form will submit normally if all validations pass
         });
-        @endguest
-
-        document.addEventListener('DOMContentLoaded', function () {
-          let statesData = @json($states);
-
-          const stateSelect = document.getElementById('state');
-          const citySelect = document.getElementById('city');
-
-          stateSelect.addEventListener('change', function () {
-            const stateId = this.value;
-            citySelect.innerHTML = '<option selected disabled>Select a city</option>';
-            citySelect.disabled = true;
-
-            const selectedState = statesData.find(state => state.id == stateId);
-            if (selectedState) {
-              selectedState.cities.forEach(city => {
-                const option = document.createElement('option');
-                option.value = city.id;
-                option.textContent = city.name;
-                citySelect.appendChild(option);
-              });
-              citySelect.disabled = false;
-            }
-          });
-
-          document.getElementById('complaint_type').addEventListener('change', function () {
-            var customTypeDiv = document.getElementById('custom_type_div');
-            if (this.value === 'Other') {
-              customTypeDiv.style.display = 'block';
-            } else {
-              customTypeDiv.style.display = 'none';
-              document.getElementById('custom_type').value = ''; // Clear the custom type input
-            }
-          });
-        });
+          @endguest
+      });
     </script>
 @endsection
 

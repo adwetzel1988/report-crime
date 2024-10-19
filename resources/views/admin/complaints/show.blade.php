@@ -28,9 +28,6 @@
                         <p class="card-text"><strong>City:</strong> {{ $complaint->user->city ?? '' }}</p>
                         <p class="card-text"><strong>State:</strong> {{ $complaint->user->state ?? '' }}</p>
                         <p class="card-text"><strong>Zip:</strong> {{ $complaint->user->zip ?? '' }}</p>
-                        @if(!is_null($complaint->assignedTo))
-                            <p class="card-text"><strong>Assigned to:</strong> {{ $complaint->assignedTo->name }}</p>
-                        @endif
                         <p class="card-text"><strong>Description:</strong> {{ $complaint->description }}</p>
                         <p class="card-text"><strong>Incident Date:</strong> {{ $complaint->incident_date }}</p>
                         @if(!is_null($complaint->city))
@@ -38,9 +35,8 @@
                         @endif
                     </div>
                     <div class="col-md-6">
-                        <h6 class="mt-4">Accused Information</h6>
-                        <p class="card-text"><strong>Name:</strong> {{ $complaint->officer->name ?? '' }}</p>
-                        <p class="card-text"><strong>Location:</strong> {{ $complaint->officer->division ?? '' }}</p>
+                        <h6 class="mt-4">Assigned Information</h6>
+                        <p class="card-text"><strong>Name:</strong> {{ $complaint->assignedTo->name ?? '' }}</p>
                     </div>
                 </div>
 

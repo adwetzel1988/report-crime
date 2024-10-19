@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Submit a Complaint')
+@section('title', 'Report a Crime')
 
 @section('content')
 <div class="container">

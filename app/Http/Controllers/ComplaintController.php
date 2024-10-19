@@ -37,9 +37,9 @@ class ComplaintController extends Controller
             'complaint_type' => 'nullable|string|max:255',
             'custom_type' => 'nullable|string|max:255',
             'officer_name' => 'nullable|string|max:255',
-            'officer_rank' => 'nullable|string|max:255',
-            'officer_division' => 'nullable|string|max:255',
-            'officer_badge_number' => 'nullable|string|max:255',
+            'officer_phone_number' => 'nullable|string|max:255',
+            'officer_address' => 'nullable|string|max:255',
+            'officer_email' => 'nullable|email|max:255',
             'attachments.*' => 'file|mimes:jpg,jpeg,png,gif,mp4,pdf,doc,docx|max:10240',
             'state' => 'required|exists:states,id',
             'city' => 'required|exists:cities,id',
@@ -91,7 +91,9 @@ class ComplaintController extends Controller
         Officer::create([
             'complaint_id' => $complaint->id,
             'name' => $validatedData['officer_name'],
-            'division' => $validatedData['officer_division'],
+            'phone_number' => $validatedData['officer_phone_number'],
+            'address' => $validatedData['officer_address'],
+            'email' => $validatedData['officer_email'],
         ]);
 
         if ($request->hasFile('attachments')) {

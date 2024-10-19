@@ -22,6 +22,9 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -41,6 +44,9 @@
                         </li>
                     @endif
                     @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('complaints.search') }}">Search Reports</a>
+                            </li>
                         @if(auth()->check() && auth()->user()->role === 'admin')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.complaints.index') }}">All Reports</a>
@@ -60,9 +66,6 @@
                             </form>
                         </li>
                     @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('complaints.search') }}">Search Reports</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">Login</a>
                         </li>
