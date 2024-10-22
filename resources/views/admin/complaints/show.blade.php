@@ -36,23 +36,63 @@
                     </div>
                     <div class="col-md-6">
                         <h6 class="mt-4">Assigned Information</h6>
-                        <p class="card-text"><strong>Name:</strong> {{ $complaint->assignedTo->name ?? '' }}</p>
+                        <p class="mb-1"><strong>Name:</strong> {{ $complaint->officer->name }}</p>
+                        <p class="mb-1"><strong>Phone Number:</strong> {{ $complaint->officer->phone_number }}</p>
+                        <p class="mb-1"><strong>Address:</strong> {{ $complaint->officer->address }}</p>
+                        <p class="mb-1"><strong>Email:</strong> {{ $complaint->officer->email }}</p>
+                        <p class="mb-1"><strong>Race:</strong> {{ $complaint->officer->race }}</p>
+                        <p class="mb-1"><strong>Eye Color:</strong> {{ $complaint->officer->eye_color }}</p>
+                        <p class="mb-1"><strong>Weight:</strong> {{ $complaint->officer->weight }}</p>
+                        <p class="mb-1"><strong>Height:</strong> {{ $complaint->officer->height }}</p>
+                        <p class="mb-1"><strong>Nickname:</strong> {{ $complaint->officer->nickname }}</p>
+                        <p class="mb-1"><strong>Date of Birth:</strong> {{ $complaint->officer->date_of_birth }}</p>
+                        <p class="mb-1"><strong>Work Location:</strong> {{ $complaint->officer->work_location }}</p>
+                        <p class="mb-1"><strong>Gender:</strong> {{ $complaint->officer->gender }}</p>
+                        <p class="mb-1"><strong>Age:</strong> {{ $complaint->officer->age }}</p>
                     </div>
                 </div>
-
-                <h6 class="mt-5">Attachments</h6>
-                @if($complaint->attachments->count() > 0)
-                    <ul class="list-group mb-3">
-                        @foreach($complaint->attachments as $attachment)
-                            <li class="list-group-item">
-                                <a href="{{ Storage::url($attachment->file_path) }}"
-                                   target="_blank">{{ $attachment->file_name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <p>No attachments for this complaint.</p>
-                @endif
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="mt-5">Attachments</h6>
+                        @if($complaint->attachments->count() > 0)
+                            <ul class="list-group mb-3">
+                                @foreach($complaint->attachments as $attachment)
+                                    <li class="list-group-item">
+                                        <a href="{{ Storage::url($attachment->file_path) }}"
+                                           target="_blank">{{ $attachment->file_name }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p>No attachments for this complaint.</p>
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="mt-5">Witnesses</h6>
+                        @if($complaint->witnesses->count() > 0)
+                            <table class="table table-bordered mb-3">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($complaint->witnesses as $witness)
+                                        <tr>
+                                            <td>{{ $witness->name }}</td>
+                                            <td>{{ $witness->phone }}</td>
+                                            <td>{{ $witness->email }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p>No witnesses for this complaint.</p>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
 

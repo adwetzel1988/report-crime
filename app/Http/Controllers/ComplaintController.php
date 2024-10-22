@@ -40,9 +40,22 @@ class ComplaintController extends Controller
             'officer_phone_number' => 'nullable|string|max:255',
             'officer_address' => 'nullable|string|max:255',
             'officer_email' => 'nullable|email|max:255',
+            'officer_race' => 'nullable|string|max:255',
+            'officer_eye_color' => 'nullable|string|max:255',
+            'officer_weight' => 'nullable|string|max:255',
+            'officer_height' => 'nullable|string|max:255',
+            'officer_nickname' => 'nullable|string|max:255',
+            'officer_date_of_birth' => 'nullable|date',
+            'officer_work_location' => 'nullable|string|max:255',
+            'officer_gender' => 'nullable|string|max:255',
+            'officer_age' => 'nullable|integer',
             'attachments.*' => 'file|mimes:jpg,jpeg,png,gif,mp4,pdf,doc,docx|max:10240',
             'state' => 'required|exists:states,id',
             'city' => 'required|exists:cities,id',
+            'witnesses' => 'nullable|array',
+            'witnesses.*.name' => 'required|string|max:255',
+            'witnesses.*.contact' => 'required|string|max:15',
+            'witnesses.*.email' => 'required|email|max:255',
         ]);
 
         if (Auth::check()) {
@@ -94,6 +107,15 @@ class ComplaintController extends Controller
             'phone_number' => $validatedData['officer_phone_number'],
             'address' => $validatedData['officer_address'],
             'email' => $validatedData['officer_email'],
+            'race' => $validatedData['officer_race'],
+            'eye_color' => $validatedData['officer_eye_color'],
+            'weight' => $validatedData['officer_weight'],
+            'height' => $validatedData['officer_height'],
+            'nickname' => $validatedData['officer_nickname'],
+            'date_of_birth' => $validatedData['officer_date_of_birth'],
+            'work_location' => $validatedData['officer_work_location'],
+            'gender' => $validatedData['officer_gender'],
+            'age' => $validatedData['officer_age'],
         ]);
 
         if ($request->hasFile('attachments')) {

@@ -9,12 +9,7 @@ class Witness extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'complaint_id',
-        'name',
-        'contact',
-        'email',
-    ];
+    protected $guarded = [];
 
     public function complaint()
     {

@@ -53,7 +53,9 @@ class AdminController extends Controller
 
     public function showComplaint(Complaint $complaint)
     {
+        $complaint->load(['attachments', 'officer', 'witnesses', 'notes']);
         $subadmins = User::where('role', 'subadmin')->get();
+
         return view('admin.complaints.show', compact('complaint', 'subadmins'));
     }
 

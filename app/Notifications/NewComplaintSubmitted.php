@@ -36,6 +36,7 @@ class NewComplaintSubmitted extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+                    ->subject('New Report Submitted')
                     ->line('A new report has been submitted.')
                     ->line('Please click the button below to view the report.')
                     ->action('View Report', route('complaints.show', $this->complaint->id));

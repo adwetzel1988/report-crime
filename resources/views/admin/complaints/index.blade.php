@@ -52,7 +52,7 @@
                 <th>Created by</th>
                 <th>City</th>
                 <th>Status</th>
-                <th>Accused</th>
+                <th>Type of Crime</th>
                 <th>Created at</th>
                 <th>Closed Date</th>
                 <th>Actions</th>
@@ -65,7 +65,7 @@
                     <td>{{ $complaint->user->name ?? 'Anonymous' }}</td>
                     <td>{{ $complaint->city->name ?? 'Not Provided' }}</td>
                     <td>{{ \Illuminate\Support\Str::headline($complaint->status) }}</td>
-                    <td>{{ $complaint->officer->name ?? 'N/A' }}</td>
+                    <td>{{ $complaint->complaint_type }}</td>
                     <td>{{ $complaint->created_at }}</td>
                     <td>
                         @if($complaint->status === 'completed')
