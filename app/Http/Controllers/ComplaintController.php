@@ -50,8 +50,6 @@ class ComplaintController extends Controller
             'officer_gender' => 'nullable|string|max:255',
             'officer_age' => 'nullable|integer',
             'attachments.*' => 'file|mimes:jpg,jpeg,png,gif,mp4,pdf,doc,docx|max:10240',
-            'state' => 'required|exists:states,id',
-            'city' => 'required|exists:cities,id',
             'witnesses' => 'nullable|array',
             'witnesses.*.name' => 'required|string|max:255',
             'witnesses.*.contact' => 'required|string|max:15',
@@ -98,7 +96,6 @@ class ComplaintController extends Controller
             'incident_date' => $validatedData['incident_date'],
             'complaint_type' => $validatedData['complaint_type'],
             'status' => 'pending',
-            'city_id' => $validatedData['city'],
         ]);
 
         Officer::create([

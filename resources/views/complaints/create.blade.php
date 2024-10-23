@@ -83,21 +83,6 @@
 
                             <h6 class="card-title mt-4">Where did this crime occur</h6>
                             <div class="mb-3">
-                                <label for="state" class="form-label">State</label>
-                                <select class="form-select" id="state" name="state" required>
-                                    <option selected disabled>Select a state</option>
-                                    @foreach($states as $state)
-                                        <option value="{{ $state->id }}" {{ old('state') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="city" class="form-label">City</label>
-                                <select class="form-select" id="city" name="city" disabled required>
-                                    <option selected disabled>Select a city</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
                                 <label for="address" class="form-label">Address</label>
                                 <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}" required>
                             </div>
