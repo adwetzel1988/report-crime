@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: report-crime
--- Generation Time: 2024-10-22 23:11:45.9840
+-- Generation Time: 2024-10-24 00:17:13.2330
 -- -------------------------------------------------------------
 
 
@@ -59,7 +59,7 @@ CREATE TABLE `complaints` (
   `assigned_to` bigint unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `city_id` bigint unsigned NOT NULL,
+  `city_id` bigint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `complaints_complaint_number_unique` (`complaint_number`),
   KEY `complaints_user_id_foreign` (`user_id`),
@@ -68,7 +68,7 @@ CREATE TABLE `complaints` (
   CONSTRAINT `complaints_assigned_to_foreign` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   CONSTRAINT `complaints_city_id_foreign` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE CASCADE,
   CONSTRAINT `complaints_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs` (
@@ -104,7 +104,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `note_attachments`;
 CREATE TABLE `note_attachments` (
@@ -156,7 +156,7 @@ CREATE TABLE `officers` (
   PRIMARY KEY (`id`),
   KEY `officers_complaint_id_foreign` (`complaint_id`),
   CONSTRAINT `officers_complaint_id_foreign` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `password_reset_tokens`;
 CREATE TABLE `password_reset_tokens` (
@@ -224,7 +224,7 @@ CREATE TABLE `witnesses` (
   PRIMARY KEY (`id`),
   KEY `witnesses_complaint_id_foreign` (`complaint_id`),
   CONSTRAINT `witnesses_complaint_id_foreign` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `cities` (`id`, `state_id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Adak', 'adak', NULL, NULL),
@@ -45010,7 +45010,8 @@ INSERT INTO `complaints` (`id`, `user_id`, `complaint_number`, `description`, `i
 (6, 2, 'C-1tUACktM', 'Ea laudantium aperi', '2000-01-20 20:32:00', 'Motor vehicle theft', NULL, 'pending', NULL, NULL, NULL, '2024-10-22 13:50:47', '2024-10-22 13:50:47', 36103),
 (7, 2, 'C-S1fz9DDk', 'Illo impedit in ips', '1976-05-23 13:07:00', 'Sex offenses', NULL, 'pending', NULL, NULL, NULL, '2024-10-22 13:51:25', '2024-10-22 13:51:25', 36569),
 (8, 2, 'C-zZTeBLOI', 'Unde culpa nostrum v', '1990-01-01 05:59:00', 'Other', NULL, 'pending', NULL, NULL, NULL, '2024-10-22 14:13:29', '2024-10-22 14:13:29', 21218),
-(9, 2, 'C-GIzVHlfJ', 'Molestiae explicabo', '2002-02-12 09:01:00', 'Assault', NULL, 'pending', NULL, NULL, NULL, '2024-10-22 14:15:02', '2024-10-22 14:15:02', 31668);
+(9, 2, 'C-GIzVHlfJ', 'Molestiae explicabo', '2002-02-12 09:01:00', 'Assault', NULL, 'pending', NULL, NULL, NULL, '2024-10-22 14:15:02', '2024-10-22 14:15:02', 31668),
+(10, NULL, 'C-G5Ed4pWq', 'Doloremque Nam ut ma', '2020-05-17 07:08:00', 'Fraud', NULL, 'pending', NULL, NULL, NULL, '2024-10-23 16:01:16', '2024-10-23 16:01:16', NULL);
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
@@ -45034,7 +45035,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (30, '2024_10_16_030403_create_cities_table', 14),
 (32, '2024_10_16_082528_add_city_id_on_complaints_table', 15),
 (34, '2024_10_19_145841_change_officers_columns', 16),
-(36, '2024_10_22_112512_update_officers_table', 17);
+(36, '2024_10_22_112512_update_officers_table', 17),
+(38, '2024_10_23_155455_make_city_nullable_on_complaints_table', 18);
 
 INSERT INTO `note_attachments` (`id`, `file_path`, `file_name`, `note_id`, `created_at`, `updated_at`) VALUES
 (1, 'public/aScTwTfgDtZWQCz2EI0DkowT0dchY8NOOOGnhDho.pdf', '6-H-28p.pdf', 6, '2024-10-13 19:07:25', '2024-10-13 19:07:25'),
@@ -45047,7 +45049,8 @@ INSERT INTO `officers` (`id`, `complaint_id`, `name`, `created_at`, `updated_at`
 (3, 6, 'Sopoline Marquez', '2024-10-22 13:50:47', '2024-10-22 13:50:47', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (4, 7, 'Kaden Hinton', '2024-10-22 13:51:25', '2024-10-22 13:51:25', 'Praesentium consecte', '(782) 235-5086', 'zaryxydyc@mailinator.com', 'Unde veniam quisqua', 'Et minim ratione cum', 'Ad irure et consequa', 'Sint magna ea amet', 'Sylvester Vega', '2001-11-08', 'Minus adipisicing es', 'Sint hic saepe sit', 30),
 (5, 8, 'Branden Wilson', '2024-10-22 14:13:29', '2024-10-22 14:13:29', 'Debitis quia labore', '(343) 464-7786', 'gelijobyx@mailinator.com', 'Iusto non labore qui', 'Vel necessitatibus q', 'Rem quas qui Nam ear', 'Ea a veniam consect', 'Cassidy Knowles', '1984-06-01', 'Quia laboris archite', 'Excepteur autem pari', 2),
-(6, 9, 'Vivian Sullivan', '2024-10-22 14:15:02', '2024-10-22 14:15:02', 'Ut magna placeat et', '(102) 762-5952', 'xuje@mailinator.com', 'Voluptatem ab paria', 'Id cumque facere au', 'Ipsam tempora atque', 'Esse dolor ut perspi', 'Unity Downs', '2011-11-11', 'Sint fugit in aute', 'Id sed omnis molesti', 2);
+(6, 9, 'Vivian Sullivan', '2024-10-22 14:15:02', '2024-10-22 14:15:02', 'Ut magna placeat et', '(102) 762-5952', 'xuje@mailinator.com', 'Voluptatem ab paria', 'Id cumque facere au', 'Ipsam tempora atque', 'Esse dolor ut perspi', 'Unity Downs', '2011-11-11', 'Sint fugit in aute', 'Id sed omnis molesti', 2),
+(7, 10, 'Yuli Ashley', '2024-10-23 16:01:16', '2024-10-23 16:01:16', 'Aliquam possimus do', '(349) 613-4872', 'duwoq@mailinator.com', 'Non officia quis aut', 'Non illum irure ill', 'Sit enim ullam velit', 'Distinctio Velit se', 'Jessamine Mcintosh', '1995-05-22', 'Eu nesciunt rerum t', 'Eum aperiam elit et', 3);
 
 INSERT INTO `states` (`id`, `name`, `abbreviation`, `created_at`, `updated_at`) VALUES
 (1, 'Alaska', 'AK', NULL, NULL),
@@ -45112,7 +45115,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `address`, `city`, `stat
 (8, 'Andrew Wetzel', 'adwetzel1988@gmail.com', '$2y$12$snDn5aFjgZ3LjQtzW83qcuSmI4wsDQ8U5yISQSG8y2/OGL89zgxQS', '70366 Petit Road', 'mandeville', 'LA', '70424', '9856418978', 'user', NULL, '2024-10-14 07:18:01', '2024-10-14 07:18:01');
 
 INSERT INTO `witnesses` (`id`, `complaint_id`, `name`, `contact`, `email`, `created_at`, `updated_at`) VALUES
-(1, 9, 'Nathaniel Richardson', '686 784-1538', 'bady@mailinator.com', '2024-10-22 14:15:02', '2024-10-22 14:15:02');
+(1, 9, 'Nathaniel Richardson', '686 784-1538', 'bady@mailinator.com', '2024-10-22 14:15:02', '2024-10-22 14:15:02'),
+(2, 10, 'Ashely Schultz', '167 291-4004', 'wyvucodyv@mailinator.com', '2024-10-23 16:01:16', '2024-10-23 16:01:16');
 
 
 
